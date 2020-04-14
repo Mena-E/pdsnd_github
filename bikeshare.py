@@ -73,6 +73,7 @@ def load_data(city, month, day):
     return df
 
 def rows_display(d_frame):
+    pd.options.display.max_columns = None
     first_row = 0
     num_rows = 5
     while True:
