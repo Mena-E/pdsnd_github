@@ -73,6 +73,7 @@ def load_data(city, month, day):
     return df
 
 def rows_display(d_frame):
+    pd.options.display.max_columns = None
     first_row = 0
     num_rows = 5
     while True:
@@ -107,7 +108,6 @@ def time_stats(df):
     pop_hour = df['hour'].mode()[0]
     print("Most common start hour is: {}".format(pop_hour))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 
@@ -129,7 +129,7 @@ def station_stats(df):
     df_combo = df['Start Station'] + ' to ' + df['End Station']
     pop_combo = df_combo.mode()[0]
     print("Most frequent combination of start and end station trip is: {}".format(pop_combo))
-    print("\nThis took %s seconds." % (time.time() - start_time))
+
     print('-'*40)
 
 
@@ -147,7 +147,6 @@ def trip_duration_stats(df):
     mean_time = df['Trip Duration'].mean()
     print("The mean travel time is: {}".format(mean_time))
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 
@@ -161,25 +160,18 @@ def user_stats(df):
     user_types = df['User Type'].value_counts()
     print("Count of user type is: {}".format(user_types))
 
-    # Display counts of gender
-    if 'Gender' in df:
+    # Display counts of gender, earliest birth year,most recent birth year, and most common birth year.
+    if 'Gender' in df and 'Birth Year' in df:
         gender_count = df['Gender'].value_counts()
-        print("\nCount of each gender is: {}".format(gender_count))
-    else:
-        print("There is no gender data available for your selected city.")
-
-    # Display earliest, most recent, and most common year of birth
-    if 'Birth Year' in df:
         earliest_year = df['Birth Year'].min()
         most_recent_year = df['Birth Year'].max()
         most_common_year = df['Birth Year'].mode()[0]
+        print("\nCount of each gender is: {}".format(gender_count))
         print("\nThe earliest birth year is: {} \nThe most recent birth year is: {} \nThe most common birth year is: {}".format(earliest_year, most_recent_year, most_common_year))
     else:
-        print("There is no birth year data available for your selected city.")
+        print("There is neither gender nor birth year data available for your this city.")
 
-    print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-
 
 def main():
     while True:
